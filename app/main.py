@@ -10,7 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
-
 DBHOST = "ds2022.cqee4iwdcaph.us-east-1.rds.amazonaws.com"
 DBUSER = "admin"
 DBPASS = os.getenv("DBPASS")
