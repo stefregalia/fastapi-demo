@@ -7,10 +7,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # Best practice to hard-code your GitHub username below in LOWERCASE.
-  # Update to your own GitHub username.
   IMAGE_NAME: stefregalia/fastapi-demo
-  IMAGE_TAG: 1.${{ github.run_number }} # GITHUB_RUN_NUMBER
+  IMAGE_TAG: 1.${{ github.run_number }}
   DOCKER_BUILDKIT: 1
 
 jobs:
@@ -34,6 +32,7 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Build and push
+        id: build_and_push  
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -43,7 +42,6 @@ jobs:
           tags: |
             ghcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: echo ${{ steps.build_and_push.outputs.digest }}  
